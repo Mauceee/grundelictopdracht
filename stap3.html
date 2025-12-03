@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Facebook Feed - Dark Mode</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #18191A;
+            color: #E4E6EB;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #242526;
+            color: #E4E6EB;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .feed {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .post {
+            background-color: #242526;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .header-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .date {
+            font-size: 12px;
+            color: #B0B3B8;
+        }
+        .post-content {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        .post img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            border-top: 1px solid #3A3B3C;
+            padding-top: 10px;
+        }
+        .action-btn {
+            color: #B0B3B8;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .action-btn:hover {
+            color: #2D88FF;
+        }
+    </style>
+</head>
+<body>
+    <header>Mini Facebook Feed</header>
+    <div class="feed" id="feed"></div>
+
+    <script>
+        const posts = [
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Wat een mooie dag vandaag! 🌞', date: '27 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Iedereen bedankt voor de lieve felicitaties! Op naar de volgende 35 jaar. 🎉', date: '26 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Kijk eens naar mijn lieve hond Bella! 🐶', date: '25 november 2025', image: 'https://images.pexels.com/photos/4587990/pexels-photo-4587990.jpeg' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Nieuwe schoenen gekocht 👟', date: '24 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Vandaag pasta gemaakt 🍝', date: '23 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Filmavond met vrienden 🎬', date: '22 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Bella was vandaag bij de dierenarts 🐾', date: '21 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Nieuwe jas gekocht voor de winter ❄️', date: '20 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Bella houdt van wandelen in het park 🌳', date: '19 november 2025' },
+{ name: 'Anna Jansen', profilePic: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg', content: 'Lekker koffie gedronken ☕', date: '18 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Net een nieuwe fiets gekocht 🚴‍♂️', date: '27 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Weekendje weg naar de Veluwe!', date: '26 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Hardlopen in het bos 🌲', date: '25 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Nieuwe helm gekocht voor fietsen 🚴', date: '24 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Vandaag een smoothie gemaakt 🍓', date: '23 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Concert bezocht 🎶', date: '22 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Nieuwe serie begonnen op Netflix 📺', date: '21 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Gezellig met vrienden geborreld 🍻', date: '20 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Mijn favoriete pizza gegeten 🍕', date: '19 november 2025' },
+{ name: 'Tom de Vries', profilePic: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg', content: 'Nieuwe sportkleding gekocht 👕', date: '18 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Mijn kat is zo grappig 😂', date: '27 november 2025', image: 'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Vandaag lekker wandelen in het park.', date: '26 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Nieuwe jurk gekocht 👗', date: '25 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Koffie met een vriendin ☕', date: '24 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Kat lag de hele dag op mijn laptop 🐱', date: '23 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Nieuwe serie ontdekt 📺', date: '22 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Vandaag een taart gebakken 🍰', date: '21 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Kat kreeg een nieuw speeltje 🎾', date: '20 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Lekker lezen in de zon 📚', date: '19 november 2025' },
+{ name: 'Lisa Bakker', profilePic: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg', content: 'Nieuwe schoenen gekocht 👠', date: '18 november 2025' },
+// Mark Peters (10 posts)
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Nieuwe game gespeeld, echt top!", date: "27 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Wie gaat er mee naar het concert?", date: "26 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Pizza-avond 🍕", date: "25 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Nieuwe headset gekocht 🎧", date: "24 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Film gekeken met vrienden 🎬", date: "23 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Vandaag gesport 💪", date: "22 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Nieuwe gameconsole besteld 🕹️", date: "21 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Gezellig gebarbecued 🍖", date: "20 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Favoriete band geluisterd 🎵", date: "19 november 2025" },
+    { name: "Mark Peters", profilePic: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", content: "Nieuwe schoenen gekocht 👟", date: "18 november 2025" },
+
+
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Mijn favoriete boek gelezen 📚", date: "27 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Vakantie geboekt naar Spanje! 🇪🇸", date: "26 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Vandaag een nieuwe roman gekocht 📖", date: "25 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Heerlijke cappuccino gedronken ☕", date: "24 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Yoga in de ochtend 🧘‍♀️", date: "23 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Nieuwe bril gekocht 👓", date: "22 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Favoriete serie gekeken 📺", date: "21 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Vandaag een taart gebakken 🍰", date: "20 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Nieuwe schoenen gekocht 👠", date: "19 november 2025" },
+{ name: "Sophie van Dijk", profilePic: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg", content: "Lekker wandelen in het park 🌳", date: "18 november 2025" },
+
+
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Hardlopen in de regen, heerlijk! 🌧️", date: "27 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Nieuwe schoenen gekocht 👟", date: "26 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Vandaag een smoothie gemaakt 🍓", date: "25 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Favoriete voetbalwedstrijd gekeken ⚽", date: "24 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Nieuwe jas gekocht voor de winter ❄️", date: "23 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Gezellig met vrienden geborreld 🍻", date: "22 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Vandaag pasta gemaakt 🍝", date: "21 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Nieuwe serie ontdekt 📺", date: "20 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Lekker koffie gedronken ☕", date: "19 november 2025" },
+{ name: "Jan Willems", profilePic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg", content: "Vandaag gesport 💪", date: "18 november 2025" },
+
+
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Mijn tuin staat vol bloemen 🌸", date: "27 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Vandaag een taart gebakken 🍰", date: "26 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Nieuwe planten gekocht 🌱", date: "25 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Favoriete boek gelezen 📚", date: "24 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Lekker wandelen in het bos 🌲", date: "23 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Nieuwe jurk gekocht 👗", date: "22 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Vandaag een smoothie gemaakt 🍓", date: "21 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Gezellig met vrienden geborreld 🍷", date: "20 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Nieuwe schoenen gekocht 👠", date: "19 november 2025" },
+{ name: "Eva Groen", profilePic: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg", content: "Favoriete serie gekeken 📺", date: "18 november 2025" },
+
+
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Mijn favoriete film gekeken 🎬", date: "27 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Nieuwe laptop gekocht 💻", date: "26 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Vandaag gesport 💪", date: "25 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Nieuwe game gespeeld 🕹️", date: "24 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Favoriete band geluisterd 🎵", date: "23 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Gezellig gebarbecued 🍖", date: "22 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Nieuwe schoenen gekocht 👟", date: "21 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Vandaag een taart gebakken 🍰", date: "20 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Nieuwe headset gekocht 🎧", date: "19 november 2025" },
+{ name: "Peter Vos", profilePic: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg", content: "Filmavond met vrienden 🎥", date: "18 november 2025" },
+
+
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Mijn hond houdt van wandelen 🐾", image: "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg", date: "27 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Vandaag een marathon gelopen!", date: "26 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Nieuwe schoenen gekocht 👟", date: "25 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Favoriete boek gelezen 📚", date: "24 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Gezellig met vrienden geborreld 🍷", date: "23 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Vandaag een taart gebakken 🍰", date: "22 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Nieuwe jas gekocht voor de winter ❄️", date: "21 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Hond kreeg een nieuw speeltje 🎾", date: "20 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Lekker koffie gedronken ☕", date: "19 november 2025" },
+{ name: "Laura Smits", profilePic: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg", content: "Vandaag gesport 💪", date: "18 november 2025" },
+
+
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Nieuwe auto gekocht 🚗", date: "27 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Favoriete voetbalwedstrijd gekeken ⚽", date: "26 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Vandaag een smoothie gemaakt 🍓", date: "25 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Nieuwe jas gekocht voor de winter ❄️", date: "24 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Gezellig met vrienden geborreld 🍻", date: "23 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Vandaag pasta gemaakt 🍝", date: "22 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Nieuwe serie ontdekt 📺", date: "21 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Lekker koffie gedronken ☕", date: "20 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Vandaag gesport 💪", date: "19 november 2025" },
+{ name: "Bas Hendriks", profilePic: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", content: "Nieuwe schoenen gekocht 👟", date: "18 november 2025" },
+
+
+];
+
+        // Shuffle posts
+        posts.sort(() => Math.random() - 0.5);
+
+        const feed = document.getElementById('feed');
+
+        posts.forEach(post => {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'post-header';
+
+            const img = document.createElement('img');
+            img.src = post.profilePic;
+            img.className = 'profile-pic';
+
+            const headerTextDiv = document.createElement('div');
+            headerTextDiv.className = 'header-text';
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'name';
+            nameDiv.textContent = post.name;
+
+            const dateDiv = document.createElement('div');
+            dateDiv.className = 'date';
+            dateDiv.textContent = post.date;
+
+            headerTextDiv.appendChild(nameDiv);
+            headerTextDiv.appendChild(dateDiv);
+
+            headerDiv.appendChild(img);
+            headerDiv.appendChild(headerTextDiv);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'post-content';
+            contentDiv.textContent = post.content;
+
+            postDiv.appendChild(headerDiv);
+            postDiv.appendChild(contentDiv);
+
+            if (post.image) {
+                const postImg = document.createElement('img');
+                postImg.src = post.image;
+                postDiv.appendChild(postImg);
+            }
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'post-actions';
+
+            const likeBtn = document.createElement('div');
+            likeBtn.className = 'action-btn';
+            likeBtn.textContent = '👍 Vind ik leuk';
+
+            const commentBtn = document.createElement('div');
+            commentBtn.className = 'action-btn';
+            commentBtn.textContent = '💬 Reageren';
+
+            actionsDiv.appendChild(likeBtn);
+            actionsDiv.appendChild(commentBtn);
+
+            postDiv.appendChild(actionsDiv);
+
+            feed.appendChild(postDiv);
+        });
+
+
+    </script>
+
+<div style="text-align: center; margin-top: 50px;">
+    <a href = "finalhack.html"
+        <button style="
+            background-color: red; 
+            color: white; 
+            font-size: 36px; 
+            padding: 30px 60px; 
+            border: none; 
+            cursor: pointer;
+            border-radius: 10px;">
+            Hack de laptop!
+        </button>
+    </a>
+</div>
+
+
+</body>
+</html>

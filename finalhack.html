@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack The Code</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            padding-top: 100px;
+        }
+        h1 {
+            font-size: 3em;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        p {
+            font-size: 1.2em;
+        }
+        input[type="text"] {
+            background-color: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px;
+            font-size: 18px;
+            width: 250px;
+            text-align: center;
+        }
+        button {
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0f0;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>ACCESS REQUIRED</h1>
+    <p>Enter the secret code to proceed...</p>
+    <input type="text" id="codeInput" placeholder="Enter code">
+    <br>
+    <button onclick="checkCode()">Unlock</button>
+    <p id="message"></p>
+
+    <script>
+        function checkCode() {
+            const allowedCodes = ["Bella1990"]; // Voeg hier extra codes toe
+            const userCode = document.getElementById("codeInput").value.trim();
+
+            if (allowedCodes.includes(userCode)) {
+                window.location.href = "felicitatie.html"; // Verwijst naar de tweede pagina
+            } else {
+                document.getElementById("message").textContent = "ACCESS DENIED!";
+            }
+        }
+    </script>
+</body>
+</html>
