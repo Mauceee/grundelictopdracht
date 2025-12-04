@@ -38,17 +38,64 @@
         button:hover {
             background-color: #005fa3;
         }
+        
+.audio-row {
+      display: flex;
+      gap: 16px;            /* ruimte tussen de spelers */
+      flex-wrap: wrap;      /* laat ze afbreken op kleine schermen */
+      align-items: flex-start;
+    }
+
+    /* Elk audio-blokje (kaartje) */
+    .audio-card {
+      flex: 1 1 250px;      /* groeibaar, krimpbaar, minimale breedte */
+      max-width: 400px;     /* optioneel, beperkt te breed worden */
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .audio-title {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    /* Zorg dat de player mooi schaalt binnen de kaart */
+    .audio-card audio {
+      width: 100%;
+      height: 32px; /* optioneel, browsers bepalen zelf hoogte van controls */
+    }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1> Kies het juiste audiofragment om de code voor het volgende onderdeel te kraken. </h1>
-        <audio controls>
-            deepfakeleraren.wav
-            Je browser ondersteunt geen audio-element.
-        
-        </audio>
+    
+ <div class="audio-row">
+    <div class="audio-card">
+      <p class="audio-title">Deepfake leraren</p>
+      <audio controls>
+          deepfakeleraren.wav
+      </audio>
+    </div>
 
+    <div class="audio-card">
+      <p class="audio-title">Deense politici</p>
+      <audio controls>
+          deensepolitici.wav
+      </audio>
+    </div>
+
+    <div class="audio-card">
+      <p class="audio-title">Phishingmails</p>
+      <audio controls>
+          phishingmails.wav
+      </audio>
+    </div>
+  </div>
+
+    <div class="container">
         <h1>Voer de Waarheidscode in</h1>
         <p>Alleen de juiste code opent de poort naar de waarheid.</p>
         <input type="text" id="codeInput" placeholder="Voer code in">
@@ -73,6 +120,7 @@ function checkCode() {
     </script>
 </body>
 </html>
+
 
 
 
