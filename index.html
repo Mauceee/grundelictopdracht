@@ -110,18 +110,28 @@
 
     <script>
        
-function checkCode() {
-            const allowedCodes = ["123154112", "12379112"]; // Voeg hier extra codes toe
-            const userCode = document.getElementById("codeInput").value.trim();
+<script>
+const toegestaneHashes = [
+    "b57ea819e16e12e5e1a2e2e552abe064db5c0534ca23848ea37da1f984ae6e6b",
+    "ba8eb545e1dacd03f8796be6750e7afbf4ad354040acbad05bf22ab55cce6929"
+];
 
-            if (allowedCodes.includes(userCode)) {
-                window.location.href = "stap3.html"; // Pagina met felicitatie
-            } else {
-                document.getElementById("message").textContent = "Fout! Probeer opnieuw.";
-            }
-        }
+async function sha256(tekst) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(tekst));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
 
-    </script>
+async function checkCode() {
+    const userCode = document.getElementById("codeInput").value.trim();
+    const hash = await sha256(userCode);
+
+    if (toegestaneHashes.includes(hash)) {
+        window.location.href = "stap3.html";
+    } else {
+        document.getElementById("message").textContent = "Fout! Probeer opnieuw.";
+    }
+}
+</script>
 </body>
 </html>
 
